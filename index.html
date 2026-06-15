@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>K.O.M.B. 2001 – Membership Management Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PREMIUM MIDNIGHT AURORA THEME
+   ============================================================ */
+:root {
+  --primary:#6366f1; --primary-light:#818cf8; --primary-dark:#4338ca;
+  --secondary:#06b6d4; --accent:#8b5cf6;
+  --bg-1:#050816; --bg-2:#0b1120; --bg-3:#111827; --bg-4:#1e293b;
+  --glass-bg:rgba(255,255,255,.06); --glass-strong:rgba(255,255,255,.12);
+  --glass-border:rgba(255,255,255,.14);
+  --text:#ffffff; --text-dim:#cbd5e1; --muted:#94a3b8;
+  --green:#22c55e; --yellow:#f59e0b; --red:#ef4444;
+  --shadow-sm:0 5px 15px rgba(0,0,0,.25);
+  --shadow-md:0 15px 35px rgba(0,0,0,.35);
+  --shadow-lg:0 25px 80px rgba(0,0,0,.45);
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:Inter,"Segoe UI",system-ui,sans-serif;
+  background:linear-gradient(135deg,var(--bg-1) 0%,var(--bg-2) 30%,var(--bg-3) 70%,var(--bg-4) 100%);
+  color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:
+    radial-gradient(circle at 15% 20%,rgba(99,102,241,.35),transparent 35%),
+    radial-gradient(circle at 80% 25%,rgba(6,182,212,.25),transparent 40%),
+    radial-gradient(circle at 70% 80%,rgba(139,92,246,.25),transparent 35%),
+    radial-gradient(circle at 30% 70%,rgba(99,102,241,.15),transparent 40%);
+  animation:auroraMove 20s ease-in-out infinite alternate;
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;
+  backdrop-filter:blur(100px);-webkit-backdrop-filter:blur(100px);
+  background:linear-gradient(rgba(255,255,255,.015),rgba(255,255,255,.005));
+}
+@keyframes auroraMove{
+  0%{transform:translateY(0) scale(1)}
+  100%{transform:translateY(-25px) scale(1.08)}
+}
+
+/* ============================================================
+   NAVBAR — 3D HD GLOW + ANIMATIONS
+   ============================================================ */
+.navbar{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;height:66px;
+  background:linear-gradient(110deg,rgba(3,15,55,0.72) 0%,rgba(6,26,90,0.68) 40%,rgba(3,15,55,0.72) 100%);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid rgba(95,163,255,0.22);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.07) inset,
+    0 4px 32px rgba(7,58,153,0.45),
+    0 0 80px rgba(99,102,241,0.12);
+  transform-style:preserve-3d;
+  perspective:900px;
+}
+
+/* animated top glow line */
+.navbar::before{
+  content:"";
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent 0%,#5fa3ff 25%,#818cf8 50%,#06b6d4 75%,transparent 100%);
+  background-size:200% 100%;
+  animation:navGlowSweep 4s linear infinite;
+  border-radius:2px 2px 0 0;
+}
+@keyframes navGlowSweep{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
+
+/* bottom glow */
+.navbar::after{
+  content:"";
+  position:absolute;bottom:-1px;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(99,102,241,0.6),rgba(6,182,212,0.5),rgba(99,102,241,0.6),transparent);
+  filter:blur(1px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Increased slightly for better spacing with round logo */
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: .3px;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), filter .35s;
+}
+
+.brand:hover {
+  transform: translateY(-1px) scale(1.02);
+  filter: drop-shadow(0 0 12px rgba(95, 163, 255, 0.6));
+}
+
+.brand-logo {
+  width: 60px; /* Wider/Larger size */
+  height: 60px;
+  border-radius: 50%; /* Perfect circle */
+  background: linear-gradient(135deg, #5fa3ff, #073a99);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  box-shadow: 
+    0 6px 18px rgba(47, 128, 255, .55), 
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset, 
+    0 0 24px rgba(95, 163, 255, 0.35);
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: box-shadow .35s, transform .35s;
+  animation: logoPulse 3s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    box-shadow: 0 6px 18px rgba(47, 128, 255, .55), 0 0 0 1px rgba(255, 255, 255, 0.12) inset, 0 0 24px rgba(95, 163, 255, 0.35);
+  }
+  50% {
+    box-shadow: 0 6px 24px rgba(47, 128, 255, .75), 0 0 0 1px rgba(255, 255, 255, 0.18) inset, 0 0 40px rgba(95, 163, 255, 0.55);
+  }
+}
+
+.brand-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%; /* Keeps the image circular */
+}
+
+.brand span {
+  background: linear-gradient(135deg, #ffffff 0%, #c7d9ff 50%, #93c5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  font-size: 15px;
+}
+
+.nav-links{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+
+.nav-links a{
+  color:var(--text-dim);text-decoration:none;padding:8px 15px;
+  border-radius:10px;font-weight:500;font-size:13.5px;
+  transition:all .28s cubic-bezier(.2,.8,.2,1);
+  position:relative;overflow:hidden;
+  transform-style:preserve-3d;
+  border:1px solid transparent;
+}
+/* shimmer overlay on hover */
+.nav-links a::before{
+  content:"";
+  position:absolute;inset:0;border-radius:10px;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.08) 50%,transparent 60%);
+  background-size:200% 100%;
+  opacity:0;transition:opacity .25s;
+  pointer-events:none;
+}
+.nav-links a:hover::before{opacity:1;animation:shimmer .6s ease}
+@keyframes shimmer{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
+.nav-links a:hover{
+  color:#fff;
+  background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(6,182,212,0.15));
+  border-color:rgba(99,102,241,0.35);
+  box-shadow:0 0 18px rgba(99,102,241,0.25),0 4px 12px rgba(0,0,0,0.25);
+  transform:translateY(-2px) translateZ(6px);
+}
+.nav-links a.active{
+  color:#fff;
+  background:linear-gradient(135deg,rgba(99,102,241,0.3),rgba(6,182,212,0.2));
+  border-color:rgba(129,140,248,0.5);
+  box-shadow:0 0 22px rgba(99,102,241,0.3),0 4px 14px rgba(0,0,0,0.3),0 1px 0 rgba(255,255,255,0.1) inset;
+}
+
+/* CTA button — premium 3D glow */
+.nav-cta{
+  background:linear-gradient(135deg,#5fa3ff 0%,#3b82f6 45%,#073a99 100%)!important;
+  color:#fff!important;
+  padding:9px 20px!important;
+  border-radius:10px!important;
+  font-weight:700!important;
+  border:1px solid rgba(95,163,255,0.5)!important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.1) inset,
+    0 8px 22px rgba(47,128,255,.5),
+    0 0 35px rgba(99,102,241,0.3)!important;
+  position:relative;overflow:hidden;
+  animation:ctaGlow 2.5s ease-in-out infinite alternate;
+}
+@keyframes ctaGlow{
+  0%{box-shadow:0 0 0 1px rgba(255,255,255,0.1) inset,0 8px 22px rgba(47,128,255,.5),0 0 35px rgba(99,102,241,0.3)}
+  100%{box-shadow:0 0 0 1px rgba(255,255,255,0.15) inset,0 10px 28px rgba(47,128,255,.7),0 0 50px rgba(99,102,241,0.5)}
+}
+.nav-cta:hover{
+  transform:translateY(-3px) scale(1.04) translateZ(8px)!important;
+  box-shadow:0 14px 35px rgba(47,128,255,.7),0 0 60px rgba(99,102,241,0.5)!important;
+}
+
+.menu-toggle{
+  display:none;background:none;border:0;color:#fff;
+  font-size:24px;cursor:pointer;
+  transition:transform .25s,filter .25s;
+}
+.menu-toggle:hover{
+  transform:scale(1.1);
+  filter:drop-shadow(0 0 8px rgba(95,163,255,0.7));
+}
+
+@media(max-width:880px){
+  .menu-toggle{display:block}
+  .nav-links{
+    position:absolute;top:100%;right:14px;left:14px;
+    flex-direction:column;align-items:stretch;
+    background:rgba(3,15,55,0.97);
+    backdrop-filter:blur(24px);
+    border:1px solid rgba(95,163,255,0.25);
+    border-radius:16px;
+    padding:12px;margin-top:8px;display:none;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(99,102,241,0.2);
+  }
+  .nav-links.open{display:flex;animation:navDrop .3s cubic-bezier(.2,.8,.2,1)}
+  @keyframes navDrop{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+  .nav-links a{padding:12px 14px}
+}
+
+/* ---- GLASS / 3D CARDS ---- */
+.glass{
+  background:var(--glass-bg);backdrop-filter:blur(16px) saturate(150%);
+  border:1px solid var(--glass-border);border-radius:var(--radius);box-shadow:var(--shadow-md);
+}
+.card-3d{
+  background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.04));
+  border:1px solid var(--glass-border);border-radius:18px;padding:22px;
+  box-shadow:0 1px 0 rgba(255,255,255,.25) inset,0 -1px 0 rgba(0,0,0,.15) inset,0 20px 50px rgba(0,0,0,.35);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;
+  backdrop-filter:blur(14px);
+}
+.card-3d:hover{transform:translateY(-6px) rotateX(2deg);box-shadow:0 30px 70px rgba(0,0,0,.5)}
+
+/* ---- PAGES ---- */
+.page{display:none;animation:fadeIn .4s ease;min-height:calc(100vh - 220px)}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.container{max-width:1240px;margin:0 auto;padding:28px 22px}
+
+/* ---- HERO ---- */
+.hero-grid-container{display:grid;grid-template-columns:repeat(12,1fr);width:100%;margin:0 auto}
+.hero-modern,.section{grid-column:2/12;padding:40px 0}
+.hero-modern{text-align:center}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:999px;
+  background:rgba(30,58,138,.3);border:1px solid rgba(96,165,250,.4);
+  box-shadow:0 0 15px rgba(37,99,235,.2);margin-bottom:20px;
+  font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:#93c5fd;
+}
+.hero-modern h1{font-size:clamp(28px,3vw,44px);line-height:1.1;margin-bottom:15px;color:#fff}
+.hero-modern p{max-width:700px;margin:0 auto 20px;color:rgba(255,255,255,.7);line-height:1.6}
+.hero-cta{display:flex;justify-content:center;gap:10px;margin-bottom:30px}
+.btn{
+  padding:10px 20px;border-radius:10px;border:0;cursor:pointer;
+  font-weight:600;color:#fff;background:#2563eb;
+  font-family:inherit;font-size:14px;transition:.25s;
+}
+.btn:hover{opacity:.88;transform:translateY(-1px)}
+.btn.ghost{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+.btn.sm{padding:7px 13px;font-size:13px}
+.hero-highlights{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.highlight-card{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:14px;
+  background:linear-gradient(135deg,#1e293b,#334155);border:1px solid rgba(255,255,255,.05);
+}
+@media(max-width:768px){
+  .hero-modern,.section{grid-column:1/13;padding:20px}
+}
+
+/* ---- SECTIONS ---- */
+.section{padding:46px 0}
+.section h2{font-size:30px;margin-bottom:8px}
+.sub{color:var(--text-dim);margin-bottom:14px}
+.grid{display:grid;gap:18px}
+.g-4{grid-template-columns:repeat(4,1fr)}
+.g-3{grid-template-columns:repeat(3,1fr)}
+.g-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:880px){.g-4,.g-3,.g-2{grid-template-columns:1fr}}
+
+/* ---- FORMS ---- */
+.form-card{max-width:560px;margin:60px auto;padding:34px}
+.field{margin-bottom:14px}
+.field label{display:block;margin-bottom:6px;font-size:13px;color:var(--text-dim);font-weight:500}
+.field input,.field select,.field textarea{
+  width:100%;padding:12px 14px;border-radius:11px;
+  background:rgba(255,255,255,.08);border:1px solid var(--glass-border);
+  color:#fff;font-size:14px;font-family:inherit;transition:all .2s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:#818cf8;
+  background:rgba(255,255,255,.14);
+  box-shadow:0 0 0 4px rgba(99,102,241,.2);
+}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted)}
+.field select option{color:#000}
+.row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.checkline{display:flex;align-items:center;gap:8px;color:var(--text-dim);font-size:13px}
+.link{color:#818cf8;text-decoration:none;font-size:13px}
+.link:hover{text-decoration:underline}
+.pw-strength{height:6px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:6px}
+.pw-bar{height:100%;width:0;transition:width .3s,background .3s}
+/* two-col row inside form */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.field-row{grid-template-columns:1fr}}
+
+/* ---- TABLES ---- */
+.tbl-wrap{overflow:auto;border-radius:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+table thead th{
+  text-align:left;padding:12px 14px;
+  background:rgba(7,58,153,.55);color:#cfe3ff;
+  font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.5px;
+  position:sticky;top:0;
+}
+table tbody td{padding:12px 14px;border-top:1px solid rgba(255,255,255,.08)}
+table tbody tr:hover{background:rgba(255,255,255,.05)}
+
+/* ---- BADGES ---- */
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 11px;border-radius:999px;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px;
+}
+.badge.green{background:rgba(31,191,107,.18);color:#5ff0a4;border:1px solid rgba(31,191,107,.4)}
+.badge.yellow{background:rgba(245,180,0,.18);color:#ffd76b;border:1px solid rgba(245,180,0,.4)}
+.badge.red{background:rgba(229,57,53,.2);color:#ff8a86;border:1px solid rgba(229,57,53,.45)}
+.badge.blue{background:rgba(47,128,255,.2);color:#9cc6ff;border:1px solid rgba(47,128,255,.45)}
+
+/* ---- DASHBOARD ---- */
+.dash-hero{
+  display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;
+  padding:26px;margin-bottom:24px;
+}
+@media(max-width:680px){.dash-hero{grid-template-columns:1fr;text-align:center}.dash-hero .avatar{margin:0 auto}}
+.avatar{
+  width:84px;height:84px;border-radius:50%;
+  background:linear-gradient(135deg,#5fa3ff,#073a99);
+  display:grid;place-items:center;font-size:32px;font-weight:700;
+  cursor:pointer;border:3px solid rgba(255,255,255,.3);
+  box-shadow:0 10px 30px rgba(7,58,153,.5);
+  transition:transform .3s,box-shadow .3s;overflow:hidden;
+}
+.avatar:hover{transform:scale(1.05);box-shadow:0 14px 40px rgba(47,128,255,.6)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.dash-hero h3{font-size:22px;margin-bottom:4px}
+.dash-hero .dim{color:var(--text-dim);font-size:13px}
+.dash-layout{display:grid;grid-template-columns:240px 1fr;gap:22px}
+@media(max-width:880px){.dash-layout{grid-template-columns:1fr}}
+/* ---- DASHBOARD SIDEBAR ---- */
+.side-tabs {
+  padding: 10px; display: flex; flex-direction: column; gap: 4px;
+  height: fit-content; position: sticky; top: 90px;
+}
+@media(max-width:880px){.side-tabs{position:relative;top:0;flex-direction:row;overflow:auto}}
+
+.side-tabs button {
+  text-align: left; padding: 11px 14px; border-radius: 10px;
+  background: transparent; border: 0; color: var(--text-dim);
+  cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 500; transition: all .2s;
+}
+.side-tabs button:hover { background: var(--glass-bg); color: #fff; }
+.side-tabs button.active {
+  background: linear-gradient(135deg,#5fa3ff,#073a99);
+  color: #fff; box-shadow: var(--shadow-sm);
+}
+
+/* Sidebar Section Headers */
+.nav-section-title {
+  font-size: 11px; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4); font-weight: 700;
+  margin: 15px 0 5px 10px; letter-spacing: 0.5px;
+}
+
+/* Tiles (overview stats) */
+.tile{
+  padding:20px;border-radius:14px;display:flex;flex-direction:column;gap:8px;
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+}
+.tile .num{font-size:26px;font-weight:700;color:#fff}
+.tile.t2{border-left:3px solid var(--green)}
+.tile.t3{border-left:3px solid var(--yellow)}
+.tile.t4{border-left:3px solid var(--red)}
+
+/* ---- MODAL ---- */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(2,12,40,.7);
+  display:none;align-items:center;justify-content:center;
+  z-index:200;backdrop-filter:blur(8px);padding:20px;
+}
+.modal-bg.open{display:flex;animation:fadeIn .25s}
+.modal{
+  max-width:520px;width:100%;max-height:90vh;overflow-y:auto;
+  padding:28px;position:relative;
+}
+.modal h3{margin-bottom:14px;font-size:20px}
+.modal-close{
+  position:absolute;top:18px;right:18px;
+  background:none;border:0;color:var(--text-dim);font-size:22px;
+  cursor:pointer;line-height:1;transition:color .2s;
+}
+.modal-close:hover{color:#fff}
+
+/* Auth tabs inside modal */
+.auth-tabs{display:flex;border-bottom:1px solid var(--glass-border);margin-bottom:20px}
+.auth-tab{
+  flex:1;text-align:center;padding:10px;cursor:pointer;
+  font-weight:600;font-size:14px;color:var(--muted);
+  border-bottom:2px solid transparent;transition:all .2s;
+}
+.auth-tab.active{color:var(--text);border-bottom-color:var(--primary-light)}
+
+/* ---- TOOLTIPS ---- */
+[data-tip]{position:relative}
+[data-tip]:hover::after{
+  content:attr(data-tip);
+  position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  background:rgba(3,26,77,.96);color:#fff;
+  padding:6px 10px;border-radius:8px;font-size:11px;font-weight:500;
+  white-space:nowrap;z-index:300;
+  border:1px solid var(--glass-border);box-shadow:var(--shadow-sm);
+  animation:fadeIn .2s;pointer-events:none;
+}
+
+/* ---- TOASTS ---- */
+#toasts{position:fixed;top:80px;right:20px;z-index:400;display:flex;flex-direction:column;gap:10px}
+.toast{
+  padding:12px 18px;border-radius:12px;color:#fff;
+  background:rgba(3,26,77,.95);border:1px solid var(--glass-border);
+  box-shadow:var(--shadow-md);min-width:240px;animation:slideIn .3s ease;
+}
+.toast.success{border-left:4px solid var(--green)}
+.toast.error{border-left:4px solid var(--red)}
+.toast.info{border-left:4px solid #818cf8}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:none;opacity:1}}
+
+/* ---- FEED ---- */
+.feed-post{padding:20px;margin-bottom:16px}
+.feed-post h4{margin-bottom:6px;font-size:17px}
+.feed-post .meta{color:var(--muted);font-size:12px;margin-bottom:10px}
+.feed-post p{color:var(--text-dim);line-height:1.6}
+
+/* ---- GALLERY ---- */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.gallery-item{
+  aspect-ratio:4/3;border-radius:14px;overflow:hidden;
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  display:grid;place-items:center;color:var(--muted);font-size:14px;
+}
+
+/* ---- TEAM ---- */
+.highlighted-name{color:var(--primary-light);font-weight:800;border-bottom:2px solid var(--primary);padding-bottom:2px}
+.team-card{cursor:pointer;transition:transform .2s;text-align:center;padding:24px}
+.team-card:hover{transform:translateY(-5px)}
+.team-card .avatar{margin:0 auto 14px}
+.team-card .role{color:#9cc6ff;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+.click-hint{margin-top:10px;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+
+/* ---- FOOTER ---- */
+#site-footer{margin-top:60px;overflow:hidden;border-top:1px solid rgba(255,255,255,.08)}
+.footer-scroll{
+  background:linear-gradient(90deg,#0f172a 0%,#1e293b 50%,#0f172a 100%);
+  padding:20px 0;border-top:2px solid rgba(255,255,255,.05);
+  box-shadow:0 -4px 20px rgba(0,0,0,.3);
+}
+.footer-scroll marquee{color:#e2e8f0;font-size:14px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.footer-scroll strong{color:#38bdf8;font-weight:800;margin:0 5px}
+
+/* ---- UTILITIES ---- */
+.hidden{display:none!important}
+.t-center{text-align:center}
+.mt-2{margin-top:14px}.mt-3{margin-top:22px}.mb-2{margin-bottom:14px}
+.flex{display:flex;gap:10px;align-items:center}
+.flex-between{display:flex;gap:10px;align-items:center;justify-content:space-between}
+
+/* section divider inside reg form */
+.form-section-title{
+  font-size:13px;font-weight:700;color:#818cf8;
+  text-transform:uppercase;letter-spacing:.8px;
+  margin:20px 0 10px;padding-bottom:6px;
+  border-bottom:1px solid rgba(129,140,248,0.25);
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="navbar">
+  <a class="brand" href="#" data-page="home">
+    <div class="brand-logo"><img src="your-logo.png" alt="Logo"></div>
+    <span>K.O METHODIST 'B' 2001 YEAR GROUP</span>
+  </a>
+
+  <button class="menu-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+
+  <div class="nav-links" id="navLinks">
+    <a href="#" data-page="home" class="active">Home</a>
+    <a href="#" data-page="about">About</a>
+    <a href="#" data-page="team">Team</a>
+    <a href="#" data-page="news">News</a>
+    <a href="#" data-page="gallery">Gallery</a>
+    <a href="#" data-page="contact">Contact</a>
+    <a href="#" class="nav-cta" id="navEnter" onclick="openAuthModal();return false">Enter System</a>
+    <a href="#" data-page="dashboard" id="navDash" style="display:none">Dashboard</a>
+    <a href="#" id="navLogout" style="display:none" onclick="doLogout();return false">Logout</a>
+  </div>
+</nav>
+<!-- ==================== PAGES ==================== -->
+
+<!-- HOME -->
+<section class="page active" id="page-home">
+  <div class="container">
+    <div class="hero-grid-container">
+      <div class="hero-modern">
+        <div class="hero-badge">🎓 K.O.M.B. 2001 Official Alumni Association</div>
+        <h1>K.O. METHODIST 'B'<br>YEAR 2001<br>OLD STUDENTS ASSOCIATION</h1>
+        <p>We are a non-profit and non-political association committed to unity, welfare, mutual support, and the development of our Alma Mater. Together we preserve our shared history while building a stronger future for all members.</p>
+        <div class="hero-cta">
+          <button class="btn" onclick="goto('register')">Get Started →</button>
+          <button class="btn ghost" onclick="goto('about')">Learn More</button>
+        </div>
+        <div class="hero-highlights">
+          <div class="highlight-card"><span>👥</span><strong>40 Members</strong></div>
+          <div class="highlight-card"><span>🤝</span><strong>Unity &amp; Welfare</strong></div>
+          <div class="highlight-card"><span>🏫</span><strong>Alma Mater Support</strong></div>
+          <div class="highlight-card"><span>💬</span><strong>Common Forum</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📢 Latest News &amp; Announcements</h2>
+      <div class="sub">Stay informed about meetings, welfare activities and development projects.</div>
+      <div class="grid g-2 mt-3" id="homeFeed">
+        <div class="card-3d"><h3>General Meeting Notice</h3><p class="mt-2">General meetings shall be held at least twice every year in accordance with the Constitution. Members are encouraged to actively participate.</p></div>
+        <div class="card-3d"><h3>Alma Mater Development</h3><p class="mt-2">The Association remains committed to supporting development projects that benefit K.O. Methodist 'B' JHS and future generations.</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🎯 Our Core Objectives</h2>
+      <div class="sub">Guided by the Constitution of K.O.M.B. 2001</div>
+      <div class="grid g-3 mt-3">
+        <div class="card-3d"><h3>🤝 Unity &amp; Welfare</h3><p class="mt-2">Promote unity, welfare, friendship and mutual support among members.</p></div>
+        <div class="card-3d"><h3>🏫 Alma Mater Development</h3><p class="mt-2">Initiate and support projects that contribute to the growth of our school.</p></div>
+        <div class="card-3d"><h3>💬 Common Forum</h3><p class="mt-2">Provide a platform for discussing matters affecting members and the Association.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="page" id="page-about">
+  <div class="container">
+    <div class="card-3d" style="margin-top:30px">
+      <h2>About K.O.M.B. 2001</h2>
+      <p class="sub mt-2">K.O. Methodist 'B' Year 2001 Old Students Association is a non-profit and non-political association formed by past students who completed in the year 2001. United by our shared history, values, and experiences, we are committed to strengthening the bond among members, promoting welfare, supporting one another, and contributing meaningfully to the development of our Alma Mater.</p>
+      <div class="grid g-3 mt-3">
+        <div class="card-3d"><h4>🎯 Our Mission</h4><p class="sub mt-2">To unite all K.O. Methodist 'B' Year 2001 past students and provide a common platform for mutual support, welfare, friendship, and cooperation while promoting the growth of our Alma Mater.</p></div>
+        <div class="card-3d"><h4>🌟 Our Vision</h4><p class="sub mt-2">To become a strong, respected, and impactful alumni association that positively influences the lives of its members, contributes to educational development, and serves as a model of unity.</p></div>
+        <div class="card-3d"><h4>🤝 Core Values</h4><p class="sub mt-2">Unity, Integrity, Transparency, Accountability, Mutual Support, Respect, Service, and Commitment to the welfare and progress of every member.</p></div>
+      </div>
+      <div class="grid g-3 mt-3">
+        <div class="card-3d"><h4>👥 Membership</h4><p class="sub mt-2">Open to all past students of K.O. Methodist 'B' JHS who completed in 2001 and are willing to uphold the Constitution and objectives of the Association.</p></div>
+        <div class="card-3d"><h4>🏫 Our Commitment</h4><p class="sub mt-2">We are dedicated to initiating and supporting development projects that benefit K.O. Methodist 'B' JHS and future generations of students.</p></div>
+        <div class="card-3d"><h4>💬 Common Forum</h4><p class="sub mt-2">A platform where members can deliberate on matters affecting their welfare, share ideas, build friendships, and work together for the advancement of the Association.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="page" id="page-team">
+  <div class="container">
+    <div style="margin-top:30px;display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:20px;margin-bottom:30px">
+      <div>
+        <h2 style="margin:0;font-size:32px">Executive Committee &amp; Leadership</h2>
+        <div class="sub">K.O.M.B. 2001 Leadership Structure</div>
+      </div>
+      <div>
+        <div class="card-3d team-card" onclick="openITDeveloperModal()" style="width:260px;padding:28px">
+          <div class="avatar">💻</div>
+          <h4 style="margin-top:12px" class="highlighted-name">ATTAH-NTI SAMUEL</h4>
+          <div class="role">IT / DEVELOPER</div>
+          <div class="click-hint">Click To View Profile</div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="grid g-2">
+        <div class="card-3d team-card" onclick="viewOfficer('President')">
+          <div class="avatar">👤</div>
+          <h4 class="highlighted-name">SOLOMON OKYERE</h4>
+          <div class="role">President (Chairperson)</div>
+        </div>
+        <div class="card-3d team-card" onclick="viewOfficer('Vice President')">
+          <div class="avatar">👤</div>
+          <h4 class="highlighted-name">BENARD KWARTENG</h4>
+          <div class="role">Vice President</div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="grid g-3">
+        <div class="card-3d team-card" onclick="viewOfficer('Secretary')">
+          <div class="avatar">👤</div>
+          <h4 class="highlighted-name">JOYCE BOATEMAH</h4>
+          <div class="role">Secretary</div>
+        </div>
+        <div class="card-3d team-card" onclick="viewOfficer('Finance Secretary')">
+          <div class="avatar">👤</div>
+          <h4 class="highlighted-name">CHRISTOPHER FOBI BOATENG</h4>
+          <div class="role">Finance Secretary</div>
+        </div>
+        <div class="card-3d team-card" onclick="viewOfficer('Organizer')">
+          <div class="avatar">👤</div>
+          <h4 class="highlighted-name">INSERT NAME HERE</h4>
+          <div class="role">Organizer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="page" id="page-news">
+  <div class="container">
+    <div class="card-3d" style="margin-top:30px">
+      <h2>📰 News &amp; Announcements</h2>
+      <p class="sub mt-2">Stay informed about official announcements, meetings, welfare activities, development projects, and important updates from K.O.M.B. 2001.</p>
+    </div>
+    <div class="grid g-2 mt-3">
+      <div class="card-3d"><h3>📢 General Meeting Notice</h3><p class="sub mt-2">In accordance with Article XI of the Constitution, the Association shall hold General Meetings at least twice each year. Members will be notified of meeting dates and venues through official channels.</p></div>
+      <div class="card-3d"><h3>🤝 Welfare Support Programme</h3><p class="sub mt-2">Members in good standing may benefit from welfare support during approved situations including marriage, bereavement, and other circumstances approved by the Executive Committee.</p></div>
+      <div class="card-3d"><h3>🏫 Alma Mater Development</h3><p class="sub mt-2">K.O.M.B. 2001 remains committed to initiating and supporting development projects that contribute to the growth and improvement of K.O. Methodist 'B' Junior High School.</p></div>
+      <div class="card-3d"><h3>🎉 Member Celebrations</h3><p class="sub mt-2">The Association celebrates the achievements, milestones, and successes of members. Special recognition may be given during meetings and social events.</p></div>
+      <div class="card-3d"><h3>📅 Upcoming Activities</h3><p class="sub mt-2">Upcoming programmes, reunions, welfare activities, and special events organized by the Association will be published here.</p></div>
+      <div class="card-3d"><h3>📜 Constitutional Updates</h3><p class="sub mt-2">Any approved amendments, policy updates, and important decisions affecting the Association shall be communicated to members through this section.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="page" id="page-gallery">
+  <div class="container">
+    <div class="card-3d" style="margin-top:30px">
+      <h2>📸 Gallery</h2>
+      <p class="sub mt-2">Explore photos and videos from meetings, reunions, welfare activities, development projects, special events, and memorable moments of K.O.M.B. 2001.</p>
+    </div>
+    <div class="section">
+      <div class="gallery-grid">
+        <div class="gallery-item"><div style="text-align:center"><div style="font-size:50px">📷</div><div class="mt-2">Photos Coming Soon</div></div></div>
+        <div class="gallery-item"><div style="text-align:center"><div style="font-size:50px">🎥</div><div class="mt-2">Videos Coming Soon</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="page" id="page-contact">
+  <div class="container">
+    <div class="card-3d form-card">
+      <h2>Contact Us</h2>
+      <div class="sub">We'd love to hear from you.</div>
+      <div class="field"><label>Name</label><input id="ctName" placeholder="Your name"></div>
+      <div class="field"><label>Email</label><input id="ctEmail" type="email" placeholder="you@example.com"></div>
+      <div class="field"><label>Message</label><textarea id="ctMsg" rows="4" placeholder="How can we help?"></textarea></div>
+      <button class="btn" onclick="sendContact()">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTER (6-step wizard) -->
+<section class="page" id="page-register">
+  <div class="container">
+  <div class="card-3d form-card" style="max-width:800px"><h2>Create Membership Account</h2><div class="sub">K.O.M.B. 2001 Membership Registration</div><div style="margin:20px 0"><div class="flex-between"><small id="regStepLabel">Step 1 of 6 • Personal Information</small><small id="regStepPercent">17%</small></div><div style="height:10px;background:rgba(255,255,255,.08);border-radius:20px;margin-top:8px;overflow:hidden"><div id="regProgressBar" style="height:100%;width:17%;background:linear-gradient(90deg,#2563eb,#38bdf8);border-radius:20px;transition:.3s"></div></div></div>
+    <div class="reg-step" id="reg-step-1"><div class="form-section-title">👤 Personal Information</div><div class="field"><label>Full Name (As At School) *</label><input id="rgName" placeholder="Enter Full Name"></div><div class="field-row"><div class="field"><label>Gender *</label><select id="rgGender"><option value="">-- Select Gender --</option><option>Male</option><option>Female</option></select></div><div class="field"><label>Age *</label><input id="rgAge" type="number" placeholder="Age"></div></div><div class="field"><label>Marital Status *</label><select id="rgMarital"><option value="">-- Select Status --</option><option>Single</option><option>Married</option><option>Divorced</option><option>Widowed</option></select></div></div>
+    <div class="reg-step hidden" id="reg-step-2"><div class="form-section-title">📞 Contact Information</div><div class="field-row"><div class="field"><label>Phone Number *</label><input id="rgPhone" placeholder="Phone Number"></div><div class="field"><label>WhatsApp Number *</label><input id="rgWhatsapp" placeholder="WhatsApp Number"></div></div><div class="field"><label>Email Address *</label><input id="rgEmail" type="email" placeholder="Email Address"></div><div class="field"><label>Residential Address *</label><input id="rgAddr" placeholder="Residential Address"></div><div class="field-row"><div class="field"><label>Town / City</label><input id="rgTown" placeholder="Town / City"></div><div class="field"><label>Region</label><input id="rgRegion" placeholder="Region"></div></div></div>
+    <div class="reg-step hidden" id="reg-step-3"><div class="form-section-title">💼 Professional Information</div><div class="field"><label>Occupation *</label><input id="rgOccupation" placeholder="Occupation"></div><div class="field"><label>Employer / Business Name</label><input id="rgEmployer" placeholder="Employer / Business"></div></div>
+    <div class="reg-step hidden" id="reg-step-4"><div class="form-section-title">👨‍👩‍👧‍👦 Family Information</div><div class="field"><label>Name of Spouse (If Married)</label><input id="rgSpouse" placeholder="Spouse Name"></div><div class="field"><label>Number of Children</label><input id="rgChildrenCount" type="number" min="0"></div><div class="field"><label>Name(s) of Children</label><textarea id="rgChildrenNames" rows="3"></textarea></div><div class="field"><label>Name(s) of Parents</label><textarea id="rgParents" rows="3"></textarea></div></div>
+    <div class="reg-step hidden" id="reg-step-5"><div class="form-section-title">🆘 Next Of Kin</div><div class="field"><label>Next Of Kin *</label><input id="rgKinName" placeholder="Full Name"></div><div class="field-row"><div class="field"><label>Relationship *</label><input id="rgKinRelation" placeholder="Relationship"></div><div class="field"><label>Contact Number *</label><input id="rgKinPhone" placeholder="Phone Number"></div></div></div>
+    <div class="reg-step hidden" id="reg-step-6"><div class="form-section-title">🔐 Account Setup</div><div class="field-row"><div class="field"><label>Username *</label><input id="rgUser" placeholder="Username"></div><div class="field"><label>Profile Photo</label><input id="rgPhoto" type="file" accept="image/*"></div></div><div class="field"><label>Password *</label><input id="rgPass" type="password" oninput="updatePwStrength(this.value,'pwBar')" placeholder="Password"><div class="pw-strength"><div class="pw-bar" id="pwBar"></div></div></div><div class="field"><label>Confirm Password *</label><input id="rgPassConfirm" type="password" placeholder="Confirm Password"></div><div class="field" style="margin-top:20px"><label style="display:flex;gap:10px;align-items:flex-start"><input id="rgConsent" type="checkbox"><span>I agree with all Terms and Conditions of the K.O.M.B. 2001 Constitution and consent to become a member of the Association.</span></label></div></div>
+    <div class="flex-between mt-3"><button class="btn ghost" id="regPrevBtn" onclick="prevRegStep()" style="visibility:hidden">← Previous</button><button class="btn" id="regNextBtn" onclick="nextRegStep()">Next →</button><button class="btn success hidden" id="regSubmitBtn" onclick="doRegister()">Create Account</button></div>
+    
+    <p class="t-center mt-2 sub">Already have an account? <a class="link" href="#" onclick="openAuthModal();return false">Sign In</a></p>
+  </div>
+  </div>
+</section>
+
+<!-- FORGOT -->
+<section class="page" id="page-forgot">
+  <div class="container">
+    <div class="card-3d form-card">
+      <h2>Reset Password</h2>
+      <div class="sub">Enter your email — we'll send a reset link.</div>
+      <div class="field"><label>Email</label><input id="fpEmail" type="email"></div>
+      <button class="btn" style="width:100%" onclick="doForgot()">Send Reset Link</button>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="page" id="page-dashboard">
+  <div class="container">
+    <div class="card-3d dash-hero">
+      <div class="avatar" id="dashAvatar" onclick="openProfile()" data-tip="Click to edit profile">U</div>
+      <div style="flex:1">
+        <h3 id="dashName">—</h3>
+        <div class="dim" id="dashRole">—</div>
+        <div class="dim" id="dashLast" style="font-size:12px;margin-top:4px"></div>
+      </div>
+      <div><span class="badge" id="dashQual" data-tip="Your qualification status">—</span></div>
+    </div>
+
+    <div class="dash-layout">
+      <aside class="glass side-tabs">
+  <div class="nav-section-title">General</div>
+  <button class="active" onclick="dashTab('overview',this)">📊 Overview</button>
+  
+  <div class="nav-section-title">Finance</div>
+  <button onclick="dashTab('contributions',this)">💰 Contributions</button>
+  <button onclick="dashTab('payments',this)">💳 Payments</button>
+  <button onclick="dashTab('expenses',this)">📉 Expenses</button>
+  
+  <div class="nav-section-title">Communication</div>
+  <button onclick="dashTab('feed',this)">📰 Feed</button>
+  <button onclick="dashTab('messages',this)">💬 Messages</button>
+  <button onclick="dashTab('announcements',this)">📢 Announcements</button>
+  
+  <div id="adminSection" style="display:contents">
+    <div class="nav-section-title">Admin</div>
+    <button onclick="dashTab('members',this)" id="tabMembers" style="display:none">👥 Members</button>
+    <button onclick="dashTab('logs',this)" id="tabLogs" style="display:none">📜 Activity Logs</button>
+  </div>
+</aside>
+      <div>
+        <!-- OVERVIEW -->
+        <div class="dash-content" id="dc-overview">
+          <div class="grid g-4 mb-2">
+            <div class="tile" data-tip="Fully paid contributions"><span>Fully Paid</span><span class="num" id="oFull">0</span></div>
+            <div class="tile t3" data-tip="Partially paid"><span>Partial</span><span class="num" id="oPart">0</span></div>
+            <div class="tile t4" data-tip="Unpaid"><span>Unpaid</span><span class="num" id="oUnpaid">0</span></div>
+            <div class="tile t2" data-tip="Total amount paid"><span>Total Paid</span><span class="num" id="oTotal">₵0</span></div>
+          </div>
+          <div class="card-3d"><h3>Recent Announcements</h3><div id="ovAnnounce" class="mt-2"></div></div>
+        </div>
+
+        <!-- CONTRIBUTIONS -->
+        <div class="dash-content hidden" id="dc-contributions">
+          <div class="card-3d">
+            <div class="flex-between mb-2">
+              <h3>Contributions</h3>
+              <div class="flex">
+                <input id="cSearch" placeholder="Search…" style="padding:8px 12px;border-radius:9px;background:rgba(255,255,255,.08);border:1px solid var(--glass-border);color:#fff" oninput="renderContribs()">
+                <button class="btn sm" onclick="openContribForm()" id="btnNewContrib" style="display:none">+ New</button>
+              </div>
+            </div>
+            <div class="tbl-wrap"><table id="contribTable">
+              <thead><tr><th>ID</th><th>Name</th><th>Beneficiary</th><th>Target</th><th>Collected</th><th>Balance</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <!-- PAYMENTS -->
+        <div class="dash-content hidden" id="dc-payments">
+          <div class="card-3d">
+            <div class="flex-between mb-2">
+              <h3>Payments</h3>
+              <button class="btn sm" onclick="openPaymentForm()" id="btnNewPay" style="display:none">+ Record</button>
+            </div>
+            <div class="tbl-wrap"><table id="payTable">
+              <thead><tr><th>Receipt #</th><th>Member</th><th>Contribution</th><th>Amount</th><th>Date</th><th>Method</th><th>Action</th></tr></thead>
+              <tbody></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <!-- EXPENSES -->
+        <div class="dash-content hidden" id="dc-expenses">
+          <div class="card-3d">
+            <div class="flex-between mb-2">
+              <h3>Expenses</h3>
+              <button class="btn sm" onclick="openExpenseForm()" id="btnNewExp" style="display:none">+ New</button>
+            </div>
+            <div class="tbl-wrap"><table id="expTable">
+              <thead><tr><th>ID</th><th>Name</th><th>Amount</th><th>Category</th><th>Date</th><th>Approved By</th></tr></thead>
+              <tbody></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <!-- FEED -->
+        <div class="dash-content hidden" id="dc-feed">
+          <div class="card-3d mb-2" id="feedComposer" style="display:none">
+            <h3>New Post</h3>
+            <div class="field mt-2"><label>Title</label><input id="fpTitle"></div>
+            <div class="field"><label>Body</label><textarea id="fpBody" rows="3"></textarea></div>
+            <div class="field"><label>Image URL (optional)</label><input id="fpImg"></div>
+            <button class="btn" onclick="doFeedPost()">Publish</button>
+          </div>
+          <div id="dashFeed"></div>
+        </div>
+
+        <!-- MESSAGES -->
+        <div class="dash-content hidden" id="dc-messages">
+          <div class="card-3d">
+            <h3>Messages</h3>
+            <div class="grid g-2 mt-2">
+              <div>
+                <h4 class="sub">Inbox</h4>
+                <div id="msgInbox" class="mt-2"></div>
+              </div>
+              <div>
+                <h4 class="sub">New Message</h4>
+                <div class="field mt-2"><label>To</label>
+                  <select id="msgTo">
+                    <option value="ADMIN">Admin</option>
+                    <option value="PRESIDENT">President</option>
+                    <option value="SECRETARY">Secretary</option>
+                  </select>
+                </div>
+                <div class="field"><label>Subject</label><input id="msgSub"></div>
+                <div class="field"><label>Message</label><textarea id="msgBody" rows="4"></textarea></div>
+                <button class="btn" onclick="doSendMessage()">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ANNOUNCEMENTS -->
+        <div class="dash-content hidden" id="dc-announcements">
+          <div class="card-3d" id="annComposer" style="display:none">
+            <h3>New Announcement</h3>
+            <div class="field mt-2"><label>Title</label><input id="anTitle"></div>
+            <div class="field"><label>Type</label>
+              <select id="anType"><option>Notice</option><option>Announcement</option><option>Alert</option></select>
+            </div>
+            <div class="field"><label>Message</label><textarea id="anBody" rows="3"></textarea></div>
+            <button class="btn" onclick="doAnnounce()">Publish</button>
+          </div>
+          <div class="card-3d mt-2"><h3>All Announcements</h3><div id="annList" class="mt-2"></div></div>
+        </div>
+
+        <!-- MEMBERS (admin) -->
+        <div class="dash-content hidden" id="dc-members">
+          <div class="card-3d">
+            <h3>Members</h3>
+            <div class="tbl-wrap mt-2"><table id="memTable">
+              <thead><tr><th>Name</th><th>Username</th><th>Email</th><th>Role</th><th>Qualification</th></tr></thead>
+              <tbody></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <!-- LOGS -->
+        <div class="dash-content hidden" id="dc-logs">
+          <div class="card-3d">
+            <h3>Activity Logs</h3>
+            <div class="tbl-wrap mt-2"><table id="logTable">
+              <thead><tr><th>Date</th><th>User</th><th>Action</th><th>Details</th></tr></thead>
+              <tbody></tbody>
+            </table></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SINGLE MODAL ==================== -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal card-3d" id="modalBody"></div>
+</div>
+
+<!-- TOASTS -->
+<div id="toasts"></div>
+
+<!-- FOOTER -->
+<footer id="site-footer">
+  <div class="footer-scroll">
+    <marquee behavior="scroll" direction="left" scrollamount="5">
+      🎓 K.O. METHODIST 'B' YEAR 2001 OLD STUDENTS ASSOCIATION (K.O.M.B. 2001)
+      &nbsp;&nbsp;◆&nbsp;&nbsp;
+      NON-PROFIT • NON-POLITICAL • UNITY • WELFARE • MUTUAL SUPPORT
+      &nbsp;&nbsp;◆&nbsp;&nbsp;
+      Supporting Members • Supporting Our Alma Mater • Building A Strong Legacy
+      &nbsp;&nbsp;◆&nbsp;&nbsp;
+      Designed &amp; Developed By <strong>KOOLA WEBTECH</strong>
+      &nbsp;&nbsp;◆&nbsp;&nbsp;
+      Contact: 0554244674
+      &nbsp;&nbsp;◆&nbsp;&nbsp;
+      Email: koolasamuel@gmail.com
+      &nbsp;&nbsp;◆&nbsp;&nbsp;
+      Kumasi - Ghana
+    </marquee>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const API_URL = "https://script.google.com/macros/s/AKfycbxPp54YLQU7DAxmRWX11seO3W98j8AkqtNQutSGrYDtaoIiPeect-oOpxgECoF86eOc/exec";
+const SESSION_TIMEOUT_MIN = 30;
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let SESSION = null;
+let CACHE = { contributions:[], payments:[], expenses:[], feed:[], messages:[], announcements:[], members:[], logs:[] };
+let regStep = 1;
+const REG_TOTAL = 6;
+const REG_LABELS = ['Personal Information','Contact Information','Professional Information','Family Information','Next Of Kin','Account Setup'];
+let speechMuted = true; // voice-over disabled
+
+/* ============================================================
+   CLICK AUDIO  (replaces voice-over)
+   ============================================================ */
+const ClickAudio = (() => {
+  let ctx = null;
+  function ensure() {
+    if (!ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) ctx = new AC();
+    }
+    if (ctx && ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+  function play(kind) {
+    const c = ensure(); if (!c) return;
+    const o = c.createOscillator();
+    const g = c.createGain();
+    const now = c.currentTime;
+    if (kind === 'success')      { o.type='triangle'; o.frequency.setValueAtTime(880, now); o.frequency.exponentialRampToValueAtTime(1320, now+0.12); }
+    else if (kind === 'error')   { o.type='square';   o.frequency.setValueAtTime(220, now); o.frequency.exponentialRampToValueAtTime(140, now+0.18); }
+    else                         { o.type='sine';     o.frequency.setValueAtTime(640, now); o.frequency.exponentialRampToValueAtTime(420, now+0.08); }
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(0.18, now+0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, now+0.18);
+    o.connect(g); g.connect(c.destination);
+    o.start(now); o.stop(now+0.20);
+  }
+  return { click: () => play('click'), success: () => play('success'), error: () => play('error') };
+})();
+
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('button, a, .btn, .nav-links a, .auth-tab, .side-tabs button, [onclick], .link');
+  if (t) ClickAudio.click();
+}, true);
+
+/* speak() is a no-op — voice-over removed per spec. */
+function speak(){ /* disabled */ }
+
+
+/* ============================================================
+   PASSWORD HASHING — SHA-256
+   ============================================================ */
+async function hashPassword(plain) {
+  const buf = new TextEncoder().encode(plain);
+  const h = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+/* ============================================================
+   TOASTS
+   ============================================================ */
+function toast(msg, type) {
+  try { if (type==='success') ClickAudio.success(); else if (type==='error') ClickAudio.error(); } catch(_) {}
+  const c = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = 'toast ' + (type || 'info');
+  el.textContent = msg;
+  c.appendChild(el);
+  setTimeout(() => { el.style.animation = 'slideInRight .25s reverse'; setTimeout(() => el.remove(), 250); }, 3800);
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function goto(page) {
+  // --- ADD THIS LINE ---
+  localStorage.setItem('last_active_page', page); 
+  // ---------------------
+  
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (!target) { document.getElementById('page-home').classList.add.add('active'); return; }
+  target.classList.add('active');
+  document.querySelectorAll('.nav-links a[data-page]').forEach(a => a.classList.toggle('active', a.dataset.page === page));
+  document.getElementById('navLinks').classList.remove('open');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (page === 'home') loadHome();
+  if (page === 'dashboard') loadDashboard();
+  if (page === 'register') resetWizard();
+}
+/* ============================================================
+   API
+   ============================================================ */
+async function api(action, payload) {
+  payload = payload || {};
+  payload.action = action;
+  if (SESSION) payload.token = SESSION.token;
+  try {
+    const r = await fetch(API_URL, {
+      method:'POST', redirect:'follow',
+      headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    return await r.json();
+  } catch (err) {
+    return { ok:false, error: 'Network error: ' + err.message };
+  }
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+function openModal(html) {
+  const bg = document.getElementById('modalBg');
+  const body = document.getElementById('modalBody');
+  body.innerHTML = '<button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>' + html;
+  bg.classList.add('open');
+}
+function closeModal(){ document.getElementById('modalBg').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ============================================================
+   AUTH MODAL
+   ============================================================ */
+function openAuthModal() {
+  document.getElementById('navLinks').classList.remove('open');
+  openModal(`
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="authTabLogin" onclick="switchAuthTab('login')">Login</div>
+      <div class="auth-tab" id="authTabRegister" onclick="switchAuthTab('register')">Register</div>
+    </div>
+    <div id="authContent"></div>
+  `);
+  switchAuthTab('login');
+  speak('Sign in to your account, or create a new one using the Register tab.', 'normal');
+}
+function switchAuthTab(mode) {
+  document.getElementById('authTabLogin').classList.toggle('active', mode==='login');
+  document.getElementById('authTabRegister').classList.toggle('active', mode==='register');
+  const c = document.getElementById('authContent');
+  if (mode === 'login') {
+    c.innerHTML = `
+      <h3 style="margin-top:6px">Welcome back</h3>
+      <div class="sub">Sign in with your username or email.</div>
+      <div class="field mt-2"><label>Username or Email</label><input id="liUser" autocomplete="username"></div>
+      <div class="field"><label>Password</label><input id="liPass" type="password" autocomplete="current-password"></div>
+      <button class="btn" style="width:100%" onclick="doLogin()">Sign In</button>
+      <p class="t-center mt-2 sub"><a class="link" onclick="closeModal();goto('forgot')">Forgot password?</a></p>`;
+  } else {
+    closeModal(); goto('register');
+  }
+}
+async function doLogin() {
+  const ident = document.getElementById('liUser').value.trim();
+  const pwd   = document.getElementById('liPass').value;
+  if (!ident || !pwd) { speak('Please enter your username and password.', 'high'); return toast('Enter credentials', 'error'); }
+  const hash = await hashPassword(pwd);
+  const r = await api('login', { data:{ identifier: ident, passwordHash: hash }});
+  if (!r.ok) { speak('Login failed. ' + (r.error || ''), 'high'); return toast(r.error || 'Login failed', 'error'); }
+  if (r.mustChangePassword) {
+    openModal(`<h3>Set a new password</h3>
+      <div class="sub">First-time login — please choose a new password.</div>
+      <div class="field mt-2"><label>New Password</label><input id="fcNew" type="password" oninput="updatePwStrength(this.value,'fcBar')">
+        <div class="pw-strength"><div class="pw-bar" id="fcBar"></div></div>
+      </div>
+      <div class="field"><label>Confirm Password</label><input id="fcConf" type="password"></div>
+      <button class="btn" style="width:100%" onclick="doForceChange('${r.ticket}')">Set Password & Continue</button>`);
+    return;
+  }
+  SESSION = { token:r.token, user:r.user, expires: Date.now() + SESSION_TIMEOUT_MIN*60000 };
+  localStorage.setItem('mms_session', JSON.stringify(SESSION));
+  closeModal(); onAuth(); goto('dashboard');
+  toast('Welcome, ' + r.user.fullName, 'success');
+  speak('Welcome back, ' + r.user.fullName + '.', 'normal');
+}
+async function doForceChange(ticket) {
+  const n = document.getElementById('fcNew').value, c = document.getElementById('fcConf').value;
+  if (n.length < 8) return toast('Password must be at least 8 characters', 'error');
+  if (n !== c) return toast('Passwords do not match', 'error');
+  const r = await api('forceChangePassword', { data:{ ticket, newPasswordHash: await hashPassword(n) }});
+  if (!r.ok) return toast(r.error || 'Failed', 'error');
+  SESSION = { token:r.token, user:r.user, expires: Date.now() + SESSION_TIMEOUT_MIN*60000 };
+  localStorage.setItem('mms_session', JSON.stringify(SESSION));
+  closeModal(); onAuth(); goto('dashboard');
+  toast('Password updated. Welcome!', 'success');
+}
+
+/* ============================================================
+   REGISTER WIZARD
+   ============================================================ */
+function resetWizard(){ regStep = 1; showRegStep(); }
+function showRegStep() {
+  for (let i = 1; i <= REG_TOTAL; i++) {
+    const el = document.getElementById('reg-step-'+i);
+    if (el) el.classList.toggle('hidden', i !== regStep);
+  }
+  const pct = Math.round((regStep / REG_TOTAL) * 100);
+  document.getElementById('regProgressBar').style.width = pct + '%';
+  document.getElementById('regStepPercent').textContent = pct + '%';
+  document.getElementById('regStepLabel').textContent = `Step ${regStep} of ${REG_TOTAL} • ${REG_LABELS[regStep-1]}`;
+  document.getElementById('regPrevBtn').style.visibility = regStep > 1 ? 'visible' : 'hidden';
+  document.getElementById('regNextBtn').classList.toggle('hidden', regStep === REG_TOTAL);
+  document.getElementById('regSubmitBtn').classList.toggle('hidden', regStep !== REG_TOTAL);
+}
+function validateRegStep() {
+  const need = {
+    1:[['rgName','Full name'],['rgGender','Gender'],['rgAge','Age'],['rgMarital','Marital status']],
+    2:[['rgPhone','Phone'],['rgWhatsapp','WhatsApp'],['rgEmail','Email'],['rgAddr','Address']],
+    3:[['rgOccupation','Occupation']],
+    4:[],
+    5:[['rgKinName','Next of kin'],['rgKinRelation','Relationship'],['rgKinPhone','Contact']],
+    6:[['rgUser','Username'],['rgPass','Password'],['rgPassConfirm','Confirm password']]
+  }[regStep] || [];
+  for (const [id,label] of need) {
+    const v = (document.getElementById(id).value || '').trim();
+    if (!v) { speak(label + ' is required.', 'high'); toast(label + ' is required', 'error'); return false; }
+  }
+  if (regStep === 2) {
+    const em = document.getElementById('rgEmail').value;
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { toast('Invalid email', 'error'); return false; }
+  }
+  if (regStep === 6) {
+    const p = document.getElementById('rgPass').value;
+    const c = document.getElementById('rgPassConfirm').value;
+    if (p.length < 8) { toast('Password must be at least 8 characters', 'error'); return false; }
+    if (p !== c) { toast('Passwords do not match', 'error'); return false; }
+    if (!document.getElementById('rgConsent').checked) { toast('You must accept the Constitution', 'error'); return false; }
+  }
+  return true;
+}
+function nextRegStep(){ if (!validateRegStep()) return; if (regStep < REG_TOTAL){ regStep++; showRegStep(); } }
+function prevRegStep(){ if (regStep > 1){ regStep--; showRegStep(); } }
+function updatePwStrength(v, barId) {
+  const el = document.getElementById(barId); if (!el) return;
+  let s = 0;
+  if (v.length >= 8) s++; if (/[A-Z]/.test(v)) s++; if (/[0-9]/.test(v)) s++; if (/[^A-Za-z0-9]/.test(v)) s++;
+  const pct = (s / 4) * 100;
+  el.style.width = pct + '%';
+  el.style.background = s <= 1 ? 'var(--bad)' : s === 2 ? 'var(--warn)' : s === 3 ? 'var(--accent-2)' : 'var(--ok)';
+}
+async function doRegister() {
+  if (!validateRegStep()) return;
+  const data = {
+    fullName: rgName.value, gender: rgGender.value, age: Number(rgAge.value), marital: rgMarital.value,
+    phone: rgPhone.value, whatsapp: rgWhatsapp.value, email: rgEmail.value, address: rgAddr.value,
+    town: rgTown.value, region: rgRegion.value, occupation: rgOccupation.value, employer: rgEmployer.value,
+    spouse: rgSpouse.value, childrenCount: Number(rgChildrenCount.value || 0), childrenNames: rgChildrenNames.value,
+    parents: rgParents.value, kinName: rgKinName.value, kinRelation: rgKinRelation.value, kinPhone: rgKinPhone.value,
+    username: rgUser.value, consent: rgConsent.checked, passwordHash: await hashPassword(rgPass.value)
+  };
+  const r = await api('register', { data });
+  if (r.ok) { toast('Account created — please sign in', 'success');
+    speak('Registration successful. Please sign in to access your dashboard.', 'normal');
+    openAuthModal();
+  } else { speak('Registration failed. ' + (r.error || ''), 'high'); toast(r.error || 'Registration failed', 'error'); }
+}
+
+async function doForgot() {
+  const email = document.getElementById('fpEmail').value.trim();
+  if (!email) { speak('Please enter your email address.', 'high'); return toast('Enter email', 'error'); }
+  const r = await api('forgotPassword', { email });
+  if (r.ok) toast('If the account exists, a reset notice was created.', 'success');
+  else toast(r.error || 'Failed', 'error');
+}
+
+function doLogout() {
+  speak('You have been signed out. Goodbye.', 'high');
+  api('logout');
+  SESSION = null; localStorage.removeItem('mms_session');
+  onAuth(); goto('home'); toast('Signed out', 'info');
+}
+
+function restoreSession() {
+  const raw = localStorage.getItem('mms_session');
+  if (!raw) {
+    // If no session, go home or stay on current public page
+    goto('home'); 
+    return;
+  }
+  
+  try {
+    const s = JSON.parse(raw);
+    if (s.expires > Date.now()) {
+      SESSION = s;
+      onAuth();
+      
+      // --- RESTORE THE PAGE ---
+      const savedPage = localStorage.getItem('last_active_page') || 'dashboard';
+      goto(savedPage); 
+    } else {
+      localStorage.removeItem('mms_session');
+      localStorage.removeItem('last_active_page'); // Clean up
+      toast('Session expired', 'info');
+      goto('home');
+    }
+  } catch (e) {
+    goto('home');
+  }
+}
+// ... existing code ...
+
+// Add this at the very bottom of your script tag
+window.addEventListener('DOMContentLoaded', () => {
+  restoreSession();
+});
+
+function onAuth() {
+  const li = !!SESSION;
+  document.getElementById('navEnter').style.display = li ? 'none' : '';
+  document.getElementById('navDash').style.display  = li ? '' : 'none';
+  document.getElementById('navLogout').style.display = li ? '' : 'none';
+}
+
+setInterval(() => {
+  if (SESSION && SESSION.expires < Date.now()) { doLogout(); toast('Session timed out', 'info'); }
+}, 30000);
+
+let _lastActivity = 0;
+['click','keydown','mousemove'].forEach(ev => document.addEventListener(ev, () => {
+  if (!SESSION) return;
+  const now = Date.now();
+  if (now - _lastActivity < 5000) return;   // throttle
+  _lastActivity = now;
+  SESSION.expires = now + SESSION_TIMEOUT_MIN*60000;
+  localStorage.setItem('mms_session', JSON.stringify(SESSION));
+}, { passive:true }));
+
+/* ============================================================
+   HOME
+   ============================================================ */
+async function loadHome() {
+  try {
+    const f = await api('publicFeed');
+    if (f.ok && Array.isArray(f.posts) && f.posts.length) {
+      document.getElementById('homeFeed').innerHTML = f.posts.slice(0,4).map(p => `
+        <div class="card-3d feed-post">
+          <h4>${esc(p.title)}</h4>
+          <div class="meta">${new Date(p.createdAt).toLocaleString()} · ${esc(p.author||'')}</div>
+          <p>${esc(p.body).substring(0,180)}…</p>
+        </div>`).join('');
+    }
+  } catch (_) {}
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+function qualBadge(pct) {
+  if (pct < 1/3) return { cls:'red', txt:'❌ Unqualified' };
+  if (pct < 2/3) return { cls:'yellow', txt:'⚠ Partially Qualified' };
+  return            { cls:'green',  txt:'✓ Fully Qualified' };
+}
+async function loadDashboard() {
+  if (!SESSION) { openAuthModal(); return; }
+  const u = SESSION.user;
+  document.getElementById('dashName').textContent = u.fullName;
+  document.getElementById('dashRole').textContent = String(u.role).toUpperCase() + ' · ' + u.email;
+  document.getElementById('dashLast').textContent = 'Last login: ' + (u.lastLogin ? new Date(u.lastLogin).toLocaleString() : 'first time');
+  const av = document.getElementById('dashAvatar');
+  av.innerHTML = u.profilePic ? `<img src="${esc(u.profilePic)}" alt="">` : (u.fullName||'U').charAt(0).toUpperCase();
+  speak('Welcome to your dashboard, ' + u.fullName + '.', 'normal');
+
+  const role = String(u.role).toUpperCase();
+  const exec = ['ADMIN','PRESIDENT','SECRETARY'].includes(role);
+  document.getElementById('btnNewContrib').style.display = ['ADMIN','SECRETARY'].includes(role) ? '' : 'none';
+  document.getElementById('btnNewPay').style.display     = exec ? '' : 'none';
+  document.getElementById('btnNewExp').style.display     = exec ? '' : 'none';
+  document.getElementById('feedComposer').style.display  = ['ADMIN','PRESIDENT'].includes(role) ? '' : 'none';
+  document.getElementById('annComposer').style.display   = exec ? '' : 'none';
+  document.getElementById('tabMembers').style.display    = role === 'ADMIN' ? '' : 'none';
+  document.getElementById('tabLogs').style.display       = role === 'ADMIN' ? '' : 'none';
+
+  const r = await api('dashboardData');
+  if (!r.ok) { toast(r.error || 'Load failed', 'error'); return; }
+  CACHE = r.data;
+
+  const myPays = CACHE.payments.filter(p => p.memberEmail === u.email);
+  const totalContribs = CACHE.contributions.length || 1;
+  const myFully = CACHE.contributions.filter(c => {
+    const paid = myPays.filter(p => p.contributionId === c.id).reduce((s,p) => s + Number(p.amount||0), 0);
+    return paid >= Number(c.targetAmount||0) && c.targetAmount > 0;
+  }).length;
+  const myPart = CACHE.contributions.filter(c => {
+    const paid = myPays.filter(p => p.contributionId === c.id).reduce((s,p) => s + Number(p.amount||0), 0);
+    return paid > 0 && paid < Number(c.targetAmount||0);
+  }).length;
+
+  const q = qualBadge(myFully / totalContribs);
+  const qEl = document.getElementById('dashQual');
+  qEl.className = 'badge ' + q.cls; qEl.textContent = q.txt;
+
+  document.getElementById('oFull').textContent = myFully;
+  document.getElementById('oPart').textContent = myPart;
+  document.getElementById('oUnpaid').textContent = totalContribs - myFully - myPart;
+  document.getElementById('oTotal').textContent = '₵' + myPays.reduce((s,p) => s + Number(p.amount||0), 0).toLocaleString();
+
+  renderContribs(); renderPayments(); renderExpenses();
+  renderFeed(); renderMessages(); renderAnnouncements();
+  renderMembers(); renderLogs(); renderOvAnnounce();
+}
+function dashTab(name, btn) {
+  document.querySelectorAll('.dash-content').forEach(d => d.classList.add('hidden'));
+  document.getElementById('dc-' + name).classList.remove('hidden');
+  document.querySelectorAll('.side-tabs button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+/* ============================================================
+   RENDERERS
+   ============================================================ */
+function renderContribs() {
+  const q = (document.getElementById('cSearch')?.value || '').toLowerCase();
+  const tb = document.querySelector('#contribTable tbody');
+  tb.innerHTML = CACHE.contributions
+    .filter(c => !q || (String(c.name)+c.beneficiary+c.id).toLowerCase().includes(q))
+    .map(c => `<tr>
+      <td>${esc(c.id)}</td><td>${esc(c.name)}</td><td>${esc(c.beneficiary||'')}</td>
+      <td>₵${Number(c.targetAmount||0).toLocaleString()}</td>
+      <td>₵${Number(c.amountCollected||0).toLocaleString()}</td>
+      <td>₵${Number(c.remaining||0).toLocaleString()}</td>
+      <td><span class="badge blue">${esc(c.status||'Pending')}</span></td>
+      <td><button class="btn sm ghost" onclick='viewContrib(${JSON.stringify(c.id)})'>View</button></td>
+    </tr>`).join('') || '<tr><td colspan="8" class="t-center sub">No contributions</td></tr>';
+}
+function viewContrib(id) {
+  const c = CACHE.contributions.find(x => x.id === id); if (!c) return;
+  const pays = CACHE.payments.filter(p => p.contributionId === id);
+  openModal(`<h3>${esc(c.name)}</h3>
+    <p class="sub">${esc(c.purpose||'')}</p>
+    <div class="mt-2"><b>Beneficiary:</b> ${esc(c.beneficiary||'')}</div>
+    <div><b>Target:</b> ₵${Number(c.targetAmount).toLocaleString()}</div>
+    <div><b>Collected:</b> ₵${Number(c.amountCollected||0).toLocaleString()}</div>
+    <div><b>Status:</b> ${esc(c.status)}</div>
+    <h4 class="mt-3">Payments (${pays.length})</h4>
+    <div class="tbl-wrap mt-2"><table>
+      <thead><tr><th>Member</th><th>Amount</th><th>Date</th></tr></thead>
+      <tbody>${pays.map(p => `<tr><td>${esc(p.memberName)}</td><td>₵${Number(p.amount).toLocaleString()}</td><td>${esc(p.date)}</td></tr>`).join('') || '<tr><td colspan="3" class="sub t-center">None</td></tr>'}</tbody>
+    </table></div>`);
+}
+function renderPayments() {
+  const tb = document.querySelector('#payTable tbody');
+  tb.innerHTML = CACHE.payments.map(p => `<tr>
+    <td>${esc(p.receipt||'')}</td><td>${esc(p.memberName)}</td><td>${esc(p.contributionName||'')}</td>
+    <td>₵${Number(p.amount).toLocaleString()}</td><td>${esc(p.date)}</td><td>${esc(p.method||'')}</td>
+    <td><button class="btn sm ghost" onclick='printReceipt(${JSON.stringify(p.receipt)})'>Receipt</button></td>
+  </tr>`).join('') || '<tr><td colspan="7" class="t-center sub">No payments</td></tr>';
+}
+function renderExpenses() {
+  const tb = document.querySelector('#expTable tbody');
+  tb.innerHTML = CACHE.expenses.map(e => `<tr>
+    <td>${esc(e.id)}</td><td>${esc(e.name)}</td><td>₵${Number(e.amount).toLocaleString()}</td>
+    <td>${esc(e.category||'')}</td><td>${esc(e.date)}</td><td>${esc(e.approvedBy||'—')}</td>
+  </tr>`).join('') || '<tr><td colspan="6" class="t-center sub">No expenses</td></tr>';
+}
+function renderFeed() {
+  document.getElementById('dashFeed').innerHTML = CACHE.feed.map(p => `
+    <div class="card-3d feed-post">
+      <h4>${esc(p.title)}</h4>
+      <div class="meta">${new Date(p.createdAt).toLocaleString()} · ${esc(p.author||'')}</div>
+      <p>${esc(p.body)}</p>
+      ${p.imageUrl ? `<img src="${esc(p.imageUrl)}" style="width:100%;border-radius:10px;margin-top:10px" alt="">` : ''}
+    </div>`).join('') || '<p class="sub">No posts</p>';
+}
+function renderMessages() {
+  document.getElementById('msgInbox').innerHTML = CACHE.messages.map(m => `
+    <div class="card-3d feed-post" style="padding:14px">
+      <div class="flex-between"><b>${esc(m.subject)}</b><span class="badge ${m.read?'blue':'yellow'}">${m.read?'Read':'New'}</span></div>
+      <div class="meta">From ${esc(m.from)} · ${new Date(m.createdAt).toLocaleString()}</div>
+      <p>${esc(m.body)}</p>
+    </div>`).join('') || '<p class="sub">No messages</p>';
+}
+function renderAnnouncements() {
+  document.getElementById('annList').innerHTML = CACHE.announcements.map(a => `
+    <div class="card-3d feed-post" style="padding:14px">
+      <div class="flex-between"><b>${esc(a.subject||a.title)}</b><span class="badge blue">${esc(a.type)}</span></div>
+      <div class="meta">${new Date(a.createdAt).toLocaleString()} · ${esc(a.from||a.author||'')}</div>
+      <p>${esc(a.body)}</p>
+    </div>`).join('') || '<p class="sub">None</p>';
+}
+function renderOvAnnounce() {
+  document.getElementById('ovAnnounce').innerHTML = CACHE.announcements.slice(0,3).map(a => `
+    <div class="feed-post" style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)">
+      <b>${esc(a.subject||a.title)}</b> <span class="badge blue">${esc(a.type)}</span>
+      <div class="meta">${new Date(a.createdAt).toLocaleString()}</div>
+      <p class="sub">${esc(a.body)}</p>
+    </div>`).join('') || '<p class="sub">No announcements</p>';
+}
+function renderMembers() {
+  const tb = document.querySelector('#memTable tbody');
+  const totalC = CACHE.contributions.length || 1;
+  tb.innerHTML = CACHE.members.map(m => {
+    const pays = CACHE.payments.filter(p => p.memberEmail === m.email);
+    const fully = CACHE.contributions.filter(c => {
+      const paid = pays.filter(p => p.contributionId === c.id).reduce((s,p) => s + Number(p.amount||0), 0);
+      return paid >= Number(c.targetAmount||0) && c.targetAmount > 0;
+    }).length;
+    const q = qualBadge(fully/totalC);
+    return `<tr>
+      <td>${esc(m.fullName)}</td><td>${esc(m.username)}</td><td>${esc(m.email)}</td>
+      <td><span class="badge blue">${esc(m.role)}</span></td>
+      <td><span class="badge ${q.cls}">${q.txt}</span></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="5" class="t-center sub">No members</td></tr>';
+}
+function renderLogs() {
+  const tb = document.querySelector('#logTable tbody');
+  tb.innerHTML = CACHE.logs.map(l => `<tr>
+    <td>${new Date(l.timestamp).toLocaleString()}</td>
+    <td>${esc(l.username||l.user||'')}</td><td>${esc(l.action)}</td><td>${esc(l.details||'')}</td>
+  </tr>`).join('') || '<tr><td colspan="4" class="t-center sub">No logs</td></tr>';
+}
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+function openContribForm() {
+  openModal(`<h3>New Contribution</h3>
+    <div class="field mt-2"><label>Name</label><input id="ncName"></div>
+    <div class="field"><label>Beneficiary</label><input id="ncBen"></div>
+    <div class="field"><label>Purpose</label><input id="ncPur"></div>
+    <div class="field"><label>Description</label><textarea id="ncDesc" rows="2"></textarea></div>
+    <div class="field"><label>Target Amount (₵)</label><input id="ncAmt" type="number"></div>
+    <div class="field"><label>Start Date</label><input id="ncStart" type="date"></div>
+    <div class="field"><label>End Date</label><input id="ncEnd" type="date"></div>
+    <button class="btn" onclick="submitContrib()">Create</button>`);
+}
+async function submitContrib() {
+  const data = { name:ncName.value, beneficiary:ncBen.value, purpose:ncPur.value, description:ncDesc.value,
+    targetAmount:Number(ncAmt.value), startDate:ncStart.value, endDate:ncEnd.value };
+  const r = await api('createContribution', { data });
+  if (r.ok) { toast('Contribution created', 'success'); closeModal(); loadDashboard(); }
+  else toast(r.error || 'Failed', 'error');
+}
+function openPaymentForm() {
+  openModal(`<h3>Record Payment</h3>
+    <div class="field mt-2"><label>Contribution</label>
+      <select id="npContrib">${CACHE.contributions.map(c => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('')}</select>
+    </div>
+    <div class="field"><label>Member Email</label><input id="npEmail"></div>
+    <div class="field"><label>Member Name</label><input id="npName"></div>
+    <div class="field"><label>Amount (₵)</label><input id="npAmt" type="number"></div>
+    <div class="field"><label>Method</label>
+      <select id="npMethod"><option>Cash</option><option>Bank Transfer</option><option>Mobile Money</option></select>
+    </div>
+    <button class="btn" onclick="submitPayment()">Record</button>`);
+}
+async function submitPayment() {
+  const data = { contributionId:npContrib.value, memberEmail:npEmail.value, memberName:npName.value,
+    amount:Number(npAmt.value), method:npMethod.value };
+  const r = await api('createPayment', { data });
+  if (r.ok) { toast('Payment recorded', 'success'); closeModal(); loadDashboard(); }
+  else toast(r.error || 'Failed', 'error');
+}
+function openExpenseForm() {
+  openModal(`<h3>New Expense</h3>
+    <div class="field mt-2"><label>Name</label><input id="neName"></div>
+    <div class="field"><label>Amount (₵)</label><input id="neAmt" type="number"></div>
+    <div class="field"><label>Category</label><input id="neCat"></div>
+    <div class="field"><label>Purpose</label><input id="nePur"></div>
+    <div class="field"><label>Notes</label><textarea id="neNotes" rows="2"></textarea></div>
+    <button class="btn" onclick="submitExpense()">Save</button>`);
+}
+async function submitExpense() {
+  const data = { name:neName.value, amount:Number(neAmt.value), category:neCat.value, purpose:nePur.value, notes:neNotes.value };
+  const r = await api('createExpense', { data });
+  if (r.ok) { toast('Expense saved', 'success'); closeModal(); loadDashboard(); }
+  else toast(r.error || 'Failed', 'error');
+}
+async function doFeedPost() {
+  const r = await api('createFeedPost', { data:{ title:fpTitle.value, body:fpBody.value, imageUrl:fpImg.value } });
+  if (r.ok) { toast('Posted', 'success'); fpTitle.value = fpBody.value = fpImg.value = ''; loadDashboard(); }
+  else toast(r.error || 'Failed', 'error');
+}
+async function doSendMessage() {
+  const r = await api('sendMessage', { data:{ to:msgTo.value, subject:msgSub.value, body:msgBody.value } });
+  if (r.ok) { toast('Sent', 'success'); msgSub.value = msgBody.value = ''; loadDashboard(); }
+  else toast(r.error || 'Failed', 'error');
+}
+async function doAnnounce() {
+  const r = await api('createAnnouncement', { data:{ title:anTitle.value, type:anType.value, body:anBody.value } });
+  if (r.ok) { toast('Announced', 'success'); anTitle.value = anBody.value = ''; loadDashboard(); }
+  else toast(r.error || 'Failed', 'error');
+}
+async function sendContact() {
+  if (!ctName.value || !ctEmail.value || !ctMsg.value) { speak('Please fill name, email, and message.', 'high'); return toast('Fill all fields', 'error'); }
+  const r = await api('contact', { data:{ name:ctName.value, email:ctEmail.value, message:ctMsg.value } });
+  if (r.ok) { toast('Message sent', 'success'); ctName.value = ctEmail.value = ctMsg.value = ''; }
+  else toast(r.error || 'Failed', 'error');
+}
+
+/* ============================================================
+   PROFILE
+   ============================================================ */
+function openProfile() {
+  if (!SESSION) return;
+  const u = SESSION.user;
+  openModal(`<h3>Edit Profile</h3>
+    <div class="field mt-2"><label>Profile Picture URL</label><input id="pfPic" value="${esc(u.profilePic||'')}"></div>
+    <div class="field"><label>Username</label><input id="pfUser" value="${esc(u.username||'')}"></div>
+    <div class="field"><label>Email</label><input id="pfEmail" value="${esc(u.email||'')}"></div>
+    <div class="field"><label>Phone</label><input id="pfPhone" value="${esc(u.phone||'')}"></div>
+    <div class="field"><label>Address</label><input id="pfAddr" value="${esc(u.address||'')}"></div>
+    <div class="form-section-title">Change password</div>
+    <div class="field"><label>Old Password</label><input id="pfOld" type="password"></div>
+    <div class="field"><label>New Password</label><input id="pfNew" type="password"></div>
+    <div class="flex mt-2"><button class="btn" onclick="saveProfile()">Save Profile</button>
+    <button class="btn ghost" onclick="changePwd()">Change Password</button></div>`);
+}
+async function saveProfile() {
+  const data = { profilePic:pfPic.value, username:pfUser.value, email:pfEmail.value, phone:pfPhone.value, address:pfAddr.value };
+  const r = await api('updateProfile', { data });
+  if (r.ok) { toast('Profile updated', 'success'); SESSION.user = { ...SESSION.user, ...data }; closeModal(); loadDashboard(); }
+  else toast(r.error || 'Failed', 'error');
+}
+async function changePwd() {
+  if (!pfOld.value || !pfNew.value) return toast('Enter both passwords', 'error');
+  if (pfNew.value.length < 8) return toast('New password too short', 'error');
+  const r = await api('changePassword', { data:{ oldPasswordHash: await hashPassword(pfOld.value), newPasswordHash: await hashPassword(pfNew.value) }});
+  if (r.ok) { toast('Password changed', 'success'); closeModal(); }
+  else toast(r.error || 'Failed', 'error');
+}
+
+/* ============================================================
+   TEAM MODALS
+   ============================================================ */
+function viewOfficer(role) {
+  const o = {
+    'President':        { name:'SOLOMON OKYERE',           detail:'Chairperson. Leads executive decisions.' },
+    'Vice President':   { name:'BENARD KWARTENG',          detail:'Supports the President and deputises.' },
+    'Secretary':        { name:'JOYCE BOATEMAH',           detail:'Correspondence, records, admin duties.' },
+    'Finance Secretary':{ name:'CHRISTOPHER FOBI BOATENG', detail:'Manages dues collection and reporting.' },
+    'Organizer':        { name:'INSERT NAME HERE',         detail:'Coordinates events and member activities.' }
+  }[role] || { name:role, detail:'' };
+  speak(o.name + ', ' + role + '. ' + o.detail, 'normal');
+  openModal(`<h3>${esc(o.name)}</h3><div class="badge blue mt-2" style="margin-bottom:12px">${esc(role)}</div><p class="sub mt-2">${esc(o.detail)}</p>`);
+}
+function openITDeveloperModal() {
+  speak('Attah Enty Samuel, I T Developer of the K O M B 2001 platform.', 'normal');
+  openModal(`<h3>ATTAH-NTI SAMUEL</h3>
+    <div class="badge blue mt-2" style="margin-bottom:12px">IT / DEVELOPER</div>
+    <p class="sub mt-2">Systems architect and developer of the K.O.M.B. 2001 Membership Management Platform.</p>
+    <div class="mt-2"><b>Brand:</b> KOOLA WEBTECH</div>
+    <div><b>Email:</b> koolasamuel@gmail.com</div>
+    <div><b>Phone:</b> 0554244674</div>
+    <div><b>Location:</b> Kumasi, Ghana</div>`);
+}
+
+/* ============================================================
+   RECEIPT PRINT
+   ============================================================ */
+function printReceipt(rcpt) {
+  const p = CACHE.payments.find(x => x.receipt === rcpt); if (!p) return;
+  const w = window.open('', '_blank');
+  w.document.write(`<!doctype html><html><head><title>Receipt ${rcpt}</title>
+    <style>body{font-family:Arial;padding:40px;max-width:600px;margin:auto}
+    h1{color:#073a99}table{width:100%;border-collapse:collapse;margin-top:20px}
+    td{padding:10px;border-bottom:1px solid #ddd}</style></head><body>
+    <h1>Payment Receipt</h1>
+    <table>
+      <tr><td><b>Receipt #</b></td><td>${p.receipt}</td></tr>
+      <tr><td><b>Member</b></td><td>${p.memberName}</td></tr>
+      <tr><td><b>Contribution</b></td><td>${p.contributionName||''}</td></tr>
+      <tr><td><b>Amount</b></td><td>₵${Number(p.amount).toLocaleString()}</td></tr>
+      <tr><td><b>Date</b></td><td>${p.date}</td></tr>
+      <tr><td><b>Method</b></td><td>${p.method||''}</td></tr>
+    </table>
+    <p style="margin-top:30px;text-align:center;color:#999">Thank you for your contribution.</p>
+    <script>window.print()<\/script></body></html>`);
+}
+
+
+</script>
+</body>
+</html>
